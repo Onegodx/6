@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -13,12 +13,10 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-//Миньков Владимир 22исп21 14 вариант 7_2 базовый уровень 
+//Миньков Владимир 22исп21 14 вариант 6 базовый уровень 
 namespace WpfApp5
 {
-    /// <summary>
-    /// Логика взаимодействия для MainWindow.xaml
-    /// </summary>
+
     public partial class MainWindow : Window
     {
         public MainWindow()
@@ -28,32 +26,27 @@ namespace WpfApp5
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            string text = textBox.Text;
-            int dotsCount = 0;
-            int commasCount = 0;
-
-            CultureInfo culture = CultureInfo.CurrentCulture;
-
-            foreach (char c in text)
+            if (int.TryParse(tbN.Text, out int n))
             {
-                if (c == '.')
-                {
-                    if (!char.IsDigit(text[text.IndexOf(c) - 1]) || !char.IsDigit(text[text.IndexOf(c) + 1]))
-                    {
-                        dotsCount++;
-                    }
-                }
-                else if (c == ',')
-                {
-                    if (!char.IsDigit(text[text.IndexOf(c) - 1]) || !char.IsDigit(text[text.IndexOf(c) + 1]))
-                    {
-                        commasCount++;
-                    }
-                }
-            }
+                double[] arr = new double[n];
 
-            dotsCountText.Text = dotsCount.ToString(culture);
-            commasCountText.Text = commasCount.ToString(culture);
+               
+                Random rnd = new Random();
+                for (int i = 0; i < n; i++)
+                {
+                    arr[i] = rnd.NextDouble();
+                }
+
+               
+                Array.Sort(arr, (x, y) => y.CompareTo(x));
+
+              
+                dg.ItemsSource = arr.Select(x => new { Value = x }).ToList();
+            }
+            else
+            {
+                MessageBox.Show("Некорректное число");
+            }
         }
     }
 }
